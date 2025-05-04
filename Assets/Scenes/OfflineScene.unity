@@ -1199,6 +1199,7 @@ MonoBehaviour:
   lobbiesMenu: {fileID: 66276989}
   lobbyListItemPrefab: {fileID: 7062615551792032409, guid: 25bf106e45e891240a32d72502573fc0, type: 3}
   lobbyListContent: {fileID: 205272791}
+  backButton: {fileID: 454297850}
   lobbiesList: []
 --- !u!4 &791186826
 Transform:

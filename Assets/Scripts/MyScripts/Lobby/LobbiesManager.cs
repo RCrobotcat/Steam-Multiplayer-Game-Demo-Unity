@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbiesManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LobbiesManager : MonoBehaviour
     public GameObject lobbiesMenu;
     public GameObject lobbyListItemPrefab;
     public Transform lobbyListContent;
+    
+    public Button backButton;
 
     public List<LobbyListItem> lobbiesList = new();
 
@@ -16,6 +19,15 @@ public class LobbiesManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+        
+        backButton.onClick.AddListener(BackToMainMenu);
+    }
+
+    private void BackToMainMenu()
+    {
+        SteamLobby.Instance.hostButton.gameObject.SetActive(true);
+        SteamLobby.Instance.lobbiesButton.gameObject.SetActive(true);
+        lobbiesMenu.SetActive(false);
     }
 
     public void DisplayLobbiesList(List<CSteamID> lobbiesIDs, LobbyDataUpdate_t result)
