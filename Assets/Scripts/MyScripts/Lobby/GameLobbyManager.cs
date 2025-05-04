@@ -7,7 +7,7 @@ using Steamworks;
 
 public partial class MyNetworkManager
 {
-    public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
+    public List<PlayerObjectController> GamePlayers { get; } = new();
 
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
@@ -45,7 +45,7 @@ public partial class MyNetworkManager
         // GameObject player = Instantiate(playerPrefab, startPos);
 
         GameObject player = Instantiate(playerPrefab, null);
-        player.transform.position = new Vector3(1000, 1000, 1000);
+        player.transform.position = new Vector3(1000, 1000, 1000); // offscreen
 
         var poc = player.GetComponent<PlayerObjectController>();
         poc.connectionID = conn.connectionId;

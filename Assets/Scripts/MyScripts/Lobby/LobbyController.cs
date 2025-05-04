@@ -47,6 +47,19 @@ public class LobbyController : MonoBehaviour
 
         readyBtn.onClick.AddListener(ReadyPlayer);
         startGameBtn.onClick.AddListener(StartGame);
+
+        SteamLobby steamLobby = FindObjectOfType<SteamLobby>();
+        if (steamLobby != null)
+        {
+            if (steamLobby.lobbySceneType == LobbySceneType.GameLobby)
+            {
+                lobbyCanvas.SetActive(true);
+            }
+            else
+            {
+                lobbyCanvas.SetActive(false);
+            }
+        }
     }
 
     public void UpdateLobbyName()

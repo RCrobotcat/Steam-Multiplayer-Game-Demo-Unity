@@ -1,13 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using Steamworks;
+
+public enum LobbySceneType
+{
+    Offline,
+    GameLobby,
+    LobbiesList
+}
 
 public class SteamLobby : MonoBehaviour
 {
     public static SteamLobby Instance; // Singleton
 
     public Button hostButton;
+    public Button lobbiesButton;
 
     MyNetworkManager networkManager;
 
@@ -19,6 +28,13 @@ public class SteamLobby : MonoBehaviour
 
     public ulong currentLobbyID;
 
+    protected Callback<LobbyMatchList_t> lobbyList;
+    protected Callback<LobbyDataUpdate_t> lobbyDataUpdated;
+
+    public List<CSteamID> lobbiesIDs = new();
+
+    [HideInInspector] public LobbySceneType lobbySceneType = LobbySceneType.Offline;
+
     private void Start()
     {
         Instance = this;
@@ -29,10 +45,14 @@ public class SteamLobby : MonoBehaviour
             return;
 
         hostButton.onClick.AddListener(HostLobby);
+        lobbiesButton.onClick.AddListener(GetListOfLobbies);
 
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+
+        lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
+        lobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyData);
     }
 
     private void Update()
@@ -44,7 +64,10 @@ public class SteamLobby : MonoBehaviour
     public void HostLobby()
     {
         hostButton.gameObject.SetActive(false);
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, networkManager.maxConnections);
+        lobbiesButton.gameObject.SetActive(false);
+        lobbySceneType = LobbySceneType.GameLobby;
+        // SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, networkManager.maxConnections);
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, networkManager.maxConnections);
     }
 
     void OnLobbyCreated(LobbyCreated_t callback)
@@ -81,5 +104,47 @@ public class SteamLobby : MonoBehaviour
         networkManager.StartClient();
 
         hostButton.gameObject.SetActive(false);
+    }
+
+    public void GetListOfLobbies()
+    {
+        hostButton.gameObject.SetActive(false);
+        lobbiesButton.gameObject.SetActive(false);
+        LobbiesManager.Instance.lobbiesMenu.SetActive(true);
+        GetLobbiesList();
+
+        lobbySceneType = LobbySceneType.LobbiesList;
+    }
+
+    public void JoinLobby(CSteamID lobbyID)
+    {
+        SteamMatchmaking.JoinLobby(lobbyID);
+    }
+
+    private void OnGetLobbiesList(LobbyMatchList_t result)
+    {
+        if (LobbiesManager.Instance.lobbiesList.Count > 0)
+            LobbiesManager.Instance.DestroyAllLobbies();
+
+        for (int i = 0; i < result.m_nLobbiesMatching; i++)
+        {
+            CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+            lobbiesIDs.Add(lobbyID);
+            SteamMatchmaking.RequestLobbyData(lobbyID);
+        }
+    }
+
+    private void OnGetLobbyData(LobbyDataUpdate_t result)
+    {
+        LobbiesManager.Instance.DisplayLobbiesList(lobbiesIDs, result);
+    }
+
+    public void GetLobbiesList()
+    {
+        if (lobbiesIDs.Count > 0)
+            lobbiesIDs.Clear();
+
+        SteamMatchmaking.AddRequestLobbyListResultCountFilter(60); // Get the first 60 lobbies
+        SteamMatchmaking.RequestLobbyList();
     }
 }

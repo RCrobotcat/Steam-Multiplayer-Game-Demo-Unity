@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/PersistentScene.unity
     guid: b8175b4787dbae14c96013bbd61ade1b
   - enabled: 1
-    path: Assets/Scenes/Lobby.unity
-    guid: db2e519a8f4b4384f99bdd14d3e64eec
-  - enabled: 1
     path: Assets/Scenes/Scene_1.unity
     guid: ccda257de774017468a04717e75bb5ee
   - enabled: 1
