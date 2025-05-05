@@ -1,7 +1,7 @@
-﻿using System;
+﻿#nullable enable
 using Mirror;
 using Steamworks;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerObjectController : NetworkBehaviour
 {
@@ -28,6 +28,31 @@ public class PlayerObjectController : NetworkBehaviour
             }
 
             return _myNetworkManager = MyNetworkManager.singleton as MyNetworkManager;
+        }
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetSceneByName("PersistentScene").isLoaded)
+        {
+            if (SceneManager.GetSceneByName("Scene_1").isLoaded
+                || SceneManager.GetSceneByName("Scene_2").isLoaded)
+            {
+                LobbyController? lobbyController = FindObjectOfType<LobbyController>();
+                SteamLobby? steamLobby = FindObjectOfType<SteamLobby>();
+
+                if (lobbyController != null && steamLobby != null)
+                {
+                    if (lobbyController.LocalPlayerObjectController != null)
+                    {
+                        if (lobbyController.LocalPlayerObjectController.playerID > 1
+                            && steamLobby.lobbySceneType != LobbySceneTypesEnum.GameScene)
+                        {
+                            steamLobby.lobbySceneType = LobbySceneTypesEnum.GameScene;
+                        }
+                    }
+                }
+            }
         }
     }
 

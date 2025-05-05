@@ -19,13 +19,13 @@ public class LobbyController : MonoBehaviour
     public List<PlayerListItem> PlayerListItems = new();
     public PlayerObjectController LocalPlayerObjectController;
 
-    MyNetworkManager _myNetworkManager;
-
     public Button readyBtn;
     public Text readyBtnText;
     public Button startGameBtn;
 
     public GameObject lobbyCanvas;
+
+    MyNetworkManager _myNetworkManager;
 
     private MyNetworkManager MyNetworkManager
     {
@@ -47,19 +47,11 @@ public class LobbyController : MonoBehaviour
 
         readyBtn.onClick.AddListener(ReadyPlayer);
         startGameBtn.onClick.AddListener(StartGame);
+    }
 
-        SteamLobby steamLobby = FindObjectOfType<SteamLobby>();
-        if (steamLobby != null)
-        {
-            if (steamLobby.lobbySceneType == LobbySceneType.GameLobby)
-            {
-                lobbyCanvas.SetActive(true);
-            }
-            else
-            {
-                lobbyCanvas.SetActive(false);
-            }
-        }
+    private void Update()
+    {
+        SetLobbyCanvasState();
     }
 
     public void UpdateLobbyName()
@@ -234,6 +226,24 @@ public class LobbyController : MonoBehaviour
         else
         {
             startGameBtn.interactable = false;
+        }
+    }
+
+    public void SetLobbyCanvasState()
+    {
+        SteamLobby steamLobby = FindObjectOfType<SteamLobby>();
+        if (steamLobby != null)
+        {
+            if (steamLobby.lobbySceneType == LobbySceneTypesEnum.GameLobby)
+            {
+                if (!lobbyCanvas.activeSelf)
+                    lobbyCanvas.SetActive(true);
+            }
+            else
+            {
+                if (lobbyCanvas.activeSelf)
+                    lobbyCanvas.SetActive(false);
+            }
         }
     }
 }

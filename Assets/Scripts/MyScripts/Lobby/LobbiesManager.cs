@@ -10,7 +10,7 @@ public class LobbiesManager : MonoBehaviour
     public GameObject lobbiesMenu;
     public GameObject lobbyListItemPrefab;
     public Transform lobbyListContent;
-    
+
     public Button backButton;
 
     public List<LobbyListItem> lobbiesList = new();
@@ -19,7 +19,7 @@ public class LobbiesManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-        
+
         backButton.onClick.AddListener(BackToMainMenu);
     }
 
@@ -51,9 +51,9 @@ public class LobbiesManager : MonoBehaviour
 
     public void DestroyAllLobbies()
     {
-        foreach (var item in lobbiesList)
+        for (int i = 0; i < lobbyListContent.childCount; i++)
         {
-            Destroy(item.gameObject);
+            DestroyImmediate(lobbyListContent.GetChild(i).gameObject);
         }
 
         lobbiesList.Clear();

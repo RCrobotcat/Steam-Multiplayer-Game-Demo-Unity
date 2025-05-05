@@ -2353,9 +2353,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1949545812}
   - component: {fileID: 1949545817}
-  - component: {fileID: 1949545814}
-  - component: {fileID: 1949545813}
-  - component: {fileID: 1949545815}
+  - component: {fileID: 1949545818}
+  - component: {fileID: 1949545819}
+  - component: {fileID: 1949545820}
   - component: {fileID: 1949545816}
   m_Layer: 0
   m_Name: NetworkManager_Steam
@@ -2380,51 +2380,6 @@ Transform:
   - {fileID: 1552690391}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1949545813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949545808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Channels: 0200000001000000
-  Timeout: 25
-  AllowSteamRelay: 1
-  UseNextGenSteamNetworking: 1
---- !u!114 &1949545814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949545808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1949545815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949545808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2bbc2bc4bf64acdb0423809b4399764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hostButton: {fileID: 760337576}
-  lobbiesButton: {fileID: 432110996}
-  currentLobbyID: 0
-  lobbiesIDs: []
-  lobbySceneType: 0
 --- !u!114 &1949545816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2457,7 +2412,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/OfflineScene.unity
   onlineScene: Assets/Scenes/PersistentScene.unity
   offlineSceneLoadDelay: 0
-  transport: {fileID: 1949545813}
+  transport: {fileID: 1949545819}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -2484,6 +2439,51 @@ MonoBehaviour:
   timeInterpolationGui: 0
   fadeinOutScreen: {fileID: 1440615576}
   firstSceneToLoad: PersistentScene
+--- !u!114 &1949545818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949545808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1949545819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949545808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Channels: 0200000001000000
+  Timeout: 25
+  AllowSteamRelay: 1
+  UseNextGenSteamNetworking: 1
+--- !u!114 &1949545820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949545808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bbc2bc4bf64acdb0423809b4399764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostButton: {fileID: 760337576}
+  lobbiesButton: {fileID: 432110996}
+  currentLobbyID: 0
+  lobbiesIDs: []
+  lobbySceneType: 0
 --- !u!1 &2095943794
 GameObject:
   m_ObjectHideFlags: 0

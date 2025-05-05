@@ -45,7 +45,6 @@ public partial class MyNetworkManager
         // GameObject player = Instantiate(playerPrefab, startPos);
 
         GameObject player = Instantiate(playerPrefab, null);
-        player.transform.position = new Vector3(1000, 1000, 1000); // offscreen
 
         var poc = player.GetComponent<PlayerObjectController>();
         poc.connectionID = conn.connectionId;
@@ -58,6 +57,8 @@ public partial class MyNetworkManager
 
         SceneManager.MoveGameObjectToScene(player, SceneManager.GetSceneByName(firstSceneToLoad));
         NetworkServer.AddPlayerForConnection(conn, player);
+
+        player.transform.position = new Vector3(1000, 1000, 1000); // offscreen
     }
 
     public void HandleSendPlayerToNewScene(string sceneName, string spawnPos)
@@ -67,6 +68,8 @@ public partial class MyNetworkManager
 
     IEnumerator SendPlayerToNewScene(string transitionToSceneName, string scenePosToSpawnOn)
     {
+        SteamLobby.Instance.lobbySceneType = LobbySceneTypesEnum.GameScene;
+
         var players = GamePlayers.ToArray();
         foreach (var player in players)
         {

@@ -21,6 +21,32 @@ public partial class MyNetworkManager : NetworkManager
             scenesToLoad[i] = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i + 2));
     }
 
+    void Update()
+    {
+        var loadedScenes = SceneManager.GetAllScenes();
+
+        // 如果场景中有 firstSceneToLoad，并且加载了多个 firstSceneToLoad，则卸载最后一个加载的 firstSceneToLoad
+        if (loadedScenes.Length > 0)
+        {
+            int firstSceneCount = 0;
+            Scene lastLoadedFirstScene = default;
+
+            foreach (var loadedScene in loadedScenes)
+            {
+                if (loadedScene.name == firstSceneToLoad)
+                {
+                    firstSceneCount++;
+                    lastLoadedFirstScene = loadedScene;
+                }
+            }
+
+            if (firstSceneCount > 1)
+            {
+                UnloadAdditiveScene(lastLoadedFirstScene);
+            }
+        }
+    }
+
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
@@ -90,5 +116,10 @@ public partial class MyNetworkManager : NetworkManager
         NetworkClient.isLoadingScene = false;
         isInTransition = false;
         OnClientSceneChanged();
+    }
+
+    public void UnloadAdditiveScene(Scene sceneToUnload)
+    {
+        SceneManager.UnloadSceneAsync(sceneToUnload);
     }
 }
